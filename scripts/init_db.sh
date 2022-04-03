@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -x
 set -eo pipefail
-if ! [ -x "$(command -v psql)" ]; then
-echo >&2 "Error: `psql` is not installed."
-exit 1
-fi
+#if ! [ -x "$(command -v psql)" ]; then
+#echo >&2 "Error: `psql` is not installed."
+#exit 1
+#fi
 if ! [ -x "$(command -v sqlx)" ]; then
 echo >&2 "Error: `sqlx` is not installed."
 echo >&2 "Use:"
@@ -24,11 +24,12 @@ docker run \
 -e POSTGRES_PASSWORD=${DB_PASSWORD} \
 -e POSTGRES_DB=${DB_NAME} \
 -p "${DB_PORT}":5432 \
+--name zero_postgres \
 -d postgres \
 postgres -N 1000
 fi
 export PGPASSWORD="${DB_PASSWORD}"
-until psql -h "localhost" -U "${DB_USER}" -p "${DB_PORT}" -d "postgres" -c '\q'; do
+until docker exec zero_postgres psql -h "localhost" -U "${DB_USER}" -p "${DB_PORT}" -d "postgres" -c '\q'; do
 >&2 echo "Postgres is still unavailable - sleeping"
 sleep 1
 done
