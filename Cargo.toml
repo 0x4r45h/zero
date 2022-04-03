@@ -26,6 +26,7 @@ name = "zero"
 # unnecessary dependencies for projects that do not need it.
 serde = { version = "1", features = ["derive"]}
 actix-web = "4.0.1"
+config = "0.13.0"
 
 # Using table-like toml syntax to avoid a super-long line!
 [dependencies.sqlx]
