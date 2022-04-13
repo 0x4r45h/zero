@@ -25,6 +25,7 @@ docker run \
 -e POSTGRES_DB=${DB_NAME} \
 -p "${DB_PORT}":5432 \
 --name zero_postgres \
+--rm \
 -d postgres \
 postgres -N 1000
 fi
